@@ -1,30 +1,28 @@
 package com.hostfinder.resources;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hostfinder.domain.Host;
+import com.hostfinder.services.HostService;
 
 @RestController
 @RequestMapping(value="/hosts")
 public class HostResource {
+	
+	@Autowired
+	private HostService service;
 
-	@RequestMapping(method=RequestMethod.GET)
-	public List<Host> listar() {
+	@RequestMapping(value="/{id}",method=RequestMethod.GET)
+	public ResponseEntity<?> find(@PathVariable Integer id) {
+		Host obj = service.buscar(id);
+		return ResponseEntity.ok().body(obj);
 		
 		
-		Host h1 = new Host(1,"e745");
-		Host h2 = new Host(2,"e746");
-		
-		List<Host> lista =new ArrayList<>();
-		lista.add(h1);
-		lista.add(h2);
-		
-		return lista;
 	}
 	
 }
